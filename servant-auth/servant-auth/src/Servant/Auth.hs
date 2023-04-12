@@ -7,7 +7,7 @@ module Servant.Auth where
 
 import           Data.Proxy          (Proxy(..))
 import           Servant.API         ((:>))
-import           Servant.Links       (HasLink (..))
+import           Servant.Links       (HasLink (..), IsElem', IsElem)
 
 -- * Authentication
 
@@ -24,6 +24,9 @@ instance HasLink sub => HasLink (Auth (tag :: [*]) value :> sub) where
   type MkLink (Auth (tag :: [*]) value :> sub) = MkLink sub
   toLink _ = toLink (Proxy :: Proxy sub)
 #endif
+
+-- | An @IsElem@ type instance for @Auth@
+type instance IsElem' e (Auth auths value :> sub) = IsElem e sub
 
 -- ** Combinators
 
